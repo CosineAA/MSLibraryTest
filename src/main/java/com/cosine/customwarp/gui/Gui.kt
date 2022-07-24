@@ -1,17 +1,35 @@
 package com.cosine.customwarp.gui
 
+import com.cosine.customwarp.util.Bag
 import kr.msleague.msgui.gui.MSGui
-import kr.msleague.msgui.gui.button.builder.MSGuiButtonBuilder
-import org.bukkit.Material
-import org.bukkit.Sound
+import kr.msleague.util.extensions.addNBTTagCompound
+import kr.msleague.util.extensions.getNBTTagCompound
 import org.bukkit.entity.Player
+import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.InventoryCloseEvent
+import org.bukkit.inventory.ItemStack
 
-class Gui(player: Player) : MSGui<Unit>(player, 27, "첵스", true) {
+class Gui(player: Player, item: ItemStack, bag: Bag = item.getNBTTagCompound(Bag::class.java)!!) : MSGui<Any>(player, bag.slot, "가방", false, item, bag) {
 
-    override fun init() {
-        MSGuiButtonBuilder(Material.STAINED_GLASS_PANE, 15).setDisplayName("§f").setAction {
-            val player: Player = it.whoClicked as Player
-            player.playSound(player.location, Sound.UI_BUTTON_CLICK, 1F, 1F)
-        }.build().setSlot(this, 0 until 27)
+    private lateinit var item: ItemStack
+    private lateinit var bag: Bag
+
+    override fun prevInit() {
+        item = getObject(0)!! as ItemStack
+        bag = getObject(1)!! as Bag
     }
+    override fun init() { inventory.contents = bag.getItem() }
+
+    override fun guiClick(event: InventoryClickEvent) {
+        super.guiClick(event)
+        if (event.click.isKeyboardClick && inventory.getItem(event.hotbarButton).isSimilar(item)) event.isCancelled = true
+        else if(event.currentItem?.isSimilar(item) == true) event.isCancelled = true
+    }
+
+    override fun guiClose(event: InventoryCloseEvent) {
+        super.guiClose(event)
+        bag.setItem(inventory.contents)
+        item.itemMeta = item.addNBTTagCompound(bag).itemMeta
+    }
+
 }
