@@ -1,0 +1,8 @@
+name: CustomWarp
+version: '${project.version}'
+main: com.cosine.customwarp.main.CustomWarp
+authors: [ Cosine_A ]
+description: 커스텀 구이 플러그인
+
+commands:
+  메뉴:
