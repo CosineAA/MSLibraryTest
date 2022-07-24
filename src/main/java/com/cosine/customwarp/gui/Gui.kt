@@ -2,8 +2,10 @@ package com.cosine.customwarp.gui
 
 import com.cosine.customwarp.util.Bag
 import kr.msleague.msgui.gui.MSGui
+import kr.msleague.msgui.gui.button.builder.MSGuiButtonBuilder
 import kr.msleague.util.extensions.addNBTTagCompound
 import kr.msleague.util.extensions.getNBTTagCompound
+import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
@@ -32,4 +34,9 @@ class Gui(player: Player, item: ItemStack, bag: Bag = item.getNBTTagCompound(Bag
         item.itemMeta = item.addNBTTagCompound(bag).itemMeta
     }
 
+    fun aa() {
+        MSGuiButtonBuilder(Material.STAINED_GLASS_PANE, 15).setDisplayName("1").setAction {
+            it.whoClicked
+        }.build().setSlot(this, 1)
+    }
 }
