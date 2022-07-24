@@ -1,8 +1,9 @@
 package com.cosine.customwarp.command
 
-import com.cosine.customwarp.gui.Gui
 import com.cosine.customwarp.util.Bag
 import kr.msleague.util.extensions.addNBTTagCompound
+import kr.msleague.util.extensions.percent
+import kr.msleague.util.locale.l10nDisplayName
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -19,5 +20,15 @@ class UserCommand : CommandExecutor {
             return false
         }
         return false
+    }
+    fun aaa(player: Player) {
+        player.inventory.itemInMainHand.apply {
+            player.sendMessage(l10nDisplayName)
+        }
+        if (30.0.percent()) {
+            player.sendMessage("성공")
+        } else {
+            player.sendMessage("실패")
+        }
     }
 }

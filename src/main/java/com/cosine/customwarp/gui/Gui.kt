@@ -20,7 +20,12 @@ class Gui(player: Player, item: ItemStack, bag: Bag = item.getNBTTagCompound(Bag
         item = getObject(0)!! as ItemStack
         bag = getObject(1)!! as Bag
     }
-    override fun init() { inventory.contents = bag.getItem() }
+    override fun init() {
+        inventory.contents = bag.getItem()
+        MSGuiButtonBuilder("d0fabe9006ae6c191c1903abc95924ca0a1ee46b18d466d17167775f1d35fa65").setDisplayName("1").setAction {
+            it.whoClicked
+        }.build().setSlot(this, 1)
+    }
 
     override fun guiClick(event: InventoryClickEvent) {
         super.guiClick(event)
@@ -35,8 +40,6 @@ class Gui(player: Player, item: ItemStack, bag: Bag = item.getNBTTagCompound(Bag
     }
 
     fun aa() {
-        MSGuiButtonBuilder(Material.STAINED_GLASS_PANE, 15).setDisplayName("1").setAction {
-            it.whoClicked
-        }.build().setSlot(this, 1)
+        MSGuiButtonBuilder("d0fabe9006ae6c191c1903abc95924ca0a1ee46b18d466d17167775f1d35fa65").setDisplayName("1").build().setSlot(this, 1)
     }
 }
